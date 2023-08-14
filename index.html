@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trade tracker</title>
+  <link rel="stylesheet" type="text/css" href="./index.css"/>
+</head>
+<body>
+<div class="outer-container">
+  <h1>SimpleTradeBrain</h1>
+  <div class="container-columns-holder">
+    <div class="container-column">
+      <div>
+        <p>input 1:</p>
+        <div class="container">
+          <p>next trade:</p>
+          <div class="container-line">
+            <div>
+              Amount your risk per trade:
+            </div>
+            <div class="container-line-value">
+              <input type="number" id="risk-per-trade-input"/>
+            </div>
+          </div>
+          <div class="container-line">
+            <div>
+              Next trade risks:
+            </div>
+            <div class="container-line-value">
+              <label>
+                <input type="radio" name="trade-risk" value="0.25"/>
+                <span>0.25R</span>
+              </label>
+              <label>
+                <input type="radio" name="trade-risk" value="0.5"/>
+                <span>0.5R</span>
+              </label>
+              <label>
+                <input type="radio" name="trade-risk" value="0.75"/>
+                <span>0.75R</span>
+              </label>
+              <label>
+                <input type="radio" name="trade-risk" value="1"/>
+                <span>1R</span>
+              </label>
+            </div>
+          </div>
+          <div class="container-line">
+            <div>
+              Risk line at:
+            </div>
+            <div class="container-line-value">
+              <input type="number" id="risk-line-input"/>
+            </div>
+          </div>
+          <div class="container-line">
+            <div>
+              Stock price is at:
+            </div>
+            <div class="container-line-value">
+              <input type="number" id="stock-price-input"/>
+            </div>
+          </div>
+          <div class="error-container" id="input-one-error-block">
+          </div>
+          <div class="button-container">
+            <button id="update-input-button">update</button>
+            <button id="input-one-sell-button">sell</button>
+            <button id="input-one-buy-button">buy</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p>input 2:</p>
+        <div class="container">
+          <p>pick one:</p>
+          <div class="radio-row-holder">
+            <label>
+              <input type="radio" name="execute-input" value="positionPercent">
+              <span>Execute</span>
+            </label>
+            <label>
+              <input type="number" id="percent-of-position-input" value="positionPercent"/>%
+              <span>of position (exits only)</span>
+            </label>
+          </div>
+          <div class="radio-row-holder">
+            <label>
+              <input type="radio" name="execute-input" value="riskPercent">
+              <span>Execute</span>
+            </label>
+            <label>
+              <input type="number" id="percent-of-risk-input"/>%
+              <span>of risk</span>
+            </label>
+          </div>
+          <div class="error-container" id="input-two-error-block">
+            &nbsp;
+          </div>
+          <div class="button-container">
+            <button id="input-two-sell-button">exit</button>
+            <button id="input-two-buy-button">add more</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-column">
+      <div>
+        <p>input 3:</p>
+        <div class="container">
+          <div class="container-line">
+            <div>
+              Add a stop with:
+            </div>
+            <div class="container-line-value container-line-extra-input-value">
+              <input type="number" id="stop-shares-count"/>
+              <span>shares at</span>
+              <input type="number" id="stop-stock-price"/>
+            </div>
+          </div>
+          <div class="error-container" id="input-three-error-block">
+            &nbsp;
+          </div>
+          <div class="button-container">
+            <button id="add-stop-button">add</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p>input 4:</p>
+        <div class="container">
+          <div class="container-line">
+            <div>
+              Add a target with:
+            </div>
+            <div class="container-line-value container-line-extra-input-value">
+              <input type="number" id="target-shares-count"/>
+              <span>shares at</span>
+              <input type="number" id="target-stock-price"/>
+            </div>
+          </div>
+          <div class="error-container" id="input-four-error-block">
+          </div>
+          <div class="button-container">
+            <button id="add-target-button">add</button>
+          </div>
+        </div>
+      </div>
+      <div class="existing-shares-block">
+        <p>input 5:</p>
+        <div class="container">
+          <div class="existing-shares-row">
+            You currently have <span id="shares-count-block"></span> shares with avg price <span
+                  id="shares-avg-count-block"></span>
+          </div>
+          <div class="existing-shares-row">
+            Exit: <input type="number" id="existing-shares-sell-count"/> shares at <span
+                  id="stock-price-block"></span>
+          </div>
+          <div class="error-container" id="input-five-error-block">
+          </div>
+          <div class="button-container">
+            <button id="sell-existing-shares-button">exit</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p>input 6:</p>
+        <div class="container">
+          <div class="button-container">
+            <button id="update-orders-button">update open orders</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <p>output:</p>
+  <div>
+    <div class="container output-container">
+      <div class="output-container-line">
+        <div>
+          In a rountrip trade:
+        </div>
+        <div class="output-container-line-value" id="is-roundtrip-block">
+          yes
+        </div>
+      </div>
+      <div class="output-container-line">
+        <div>
+          We are..
+        </div>
+        <div class="output-container-line-value" id="is-short-block">
+          yes
+        </div>
+      </div>
+      <div class="output-container-line">
+        <div>
+          Break Even is at:
+        </div>
+        <div class="output-container-line-value" id="break-even-price-block">
+          yes
+        </div>
+      </div>
+      <div class="output-container-line">
+        <div>
+          P/L on roundtrip so far:
+        </div>
+        <div class="output-container-line-value" id="roundtrip-pl-block">
+          yes
+        </div>
+      </div>
+      <div class="output-container-line">
+        <div>
+          Unrealized P/L:
+        </div>
+        <div class="output-container-line-value" id="unrealized-pl-block">
+          yes
+        </div>
+      </div>
+      <div class="output-container-line">
+        <div>
+          BERT is at:
+        </div>
+        <div class="output-container-line-value" id="bert-block">
+          yes
+        </div>
+      </div>
+      <div class="output-container-line">
+        <div>
+          Last execution bought/sold:
+        </div>
+        <div class="output-container-line-value" id="last-operation-block">
+          yes
+        </div>
+      </div>
+      <div class="output-container-line">
+        <div>
+          Current position avg:
+        </div>
+        <div class="output-container-line-value" id="avg-position-block">
+          yes
+        </div>
+      </div>
+      <div class="output-container-line">
+        <div>
+          Executions in roundtrip:
+        </div>
+        <div class="output-container-line-value" id="executions-count-block">
+          yes
+        </div>
+      </div>
+      <div class="output-container-line">
+        <div>
+          Protections:
+        </div>
+        <div class="output-container-line-value protection-details-container" id="stop-targets-block">
+          yes
+        </div>
+      </div>
+      <div class="output-container-line">
+        <div>
+          How much is protected?
+        </div>
+        <div class="output-container-line-value" id="protection-count-block">
+          yes
+        </div>
+      </div>
+      <div class="output-container-line">
+        <div>
+          Shares not protected:
+        </div>
+        <div class="output-container-line-value" id="not-protected-count-block">
+          yes
+        </div>
+      </div>
+      <div class="output-container-line">
+        <div>
+          Update orders will...
+        </div>
+        <div class="output-container-line-value" id="update-prediction-block">
+          yes
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="index.js"></script>
+</body>
+</html>
